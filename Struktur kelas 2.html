@@ -1,0 +1,446 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Profil X RPL 1</title>
+    <link rel="stylesheet" href="styles.css">
+ <style>
+        body {
+            font-family: Arial, sans-serif;
+            background-color: #f4f4f4;
+            background-image: url(''); /* Ganti dengan URL gambar yang diinginkan */
+            background-size: cover; /* Menyesuaikan gambar dengan ukuran layar */
+            background-repeat: no-repeat; /* Mencegah gambar berulang */
+            background-attachment: fixed; /* Agar gambar tetap saat di scroll */
+            margin: 0;
+            padding: 0;
+        }
+        .header {
+            display: flex;
+            align-items: center;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+        }
+        .header img {
+            width: 50px;
+            height: 50px;
+            margin-right: 20px;
+        }
+        .header h1 {
+            margin: 0;
+        }
+        .menu {
+            display: flex;
+            justify-content: center;
+            margin-top: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            padding: 10px 0;
+        }
+        .menu a {
+            margin: 0 20px;
+            padding: 10px 20px;
+            text-decoration: none;
+            color: #333;
+            border-radius: 5px;
+        }
+        .menu a:hover, .menu a.active {
+            background: #3498db;
+            color: white;
+        }
+        .search-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            text-align: center;
+        }
+        .search-container input[type="text"] {
+            width: 60%;
+            padding: 10px;
+            font-size: 16px;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+        }
+        .search-container input[type="button"] {
+            padding: 10px 20px;
+            font-size: 16px;
+            border: none;
+            border-radius: 5px;
+            background-color: #3498db;
+            color: white;
+            cursor: pointer;
+        }
+        .search-container input[type="button"]:hover {
+            background-color: #2980b9;
+        }
+        .container, .search-results, .info-container, .image-container {
+            width: 80%;
+            margin: 20px auto;
+            padding: 20px;
+            background: rgba(255, 255, 255, 0.8);
+            border-radius: 10px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+        }
+        .profile {
+            background: rgba(255, 255, 255, 0.9); /* Transparansi untuk profil */
+            padding: 20px;
+            margin: 20px 0;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+            display: flex;
+            align-items: center;
+            position: relative;
+            overflow: hidden;
+        }
+        .profile::before {
+            content: "";
+            position: absolute;
+            top: 0;
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background: rgba(0, 0, 0, 0.1);
+            z-index: 0;
+        }
+        .profile img {
+            border-radius: 50%;
+            margin-right: 20px;
+            z-index: 1;
+            transition: transform 0.3s ease;
+        }
+        .profile img:hover {
+            transform: scale(1.1);
+        }
+        .profile .info {
+            flex: 1;
+            position: relative;
+            z-index: 1;
+        }
+        .profile .info h2 {
+            margin: 0 0 10px;
+            color: #333;
+        }
+        .profile .info p {
+            margin: 0 0 10px;
+            color: #666;
+        }
+        .profile .info a {
+            color: #3498db;
+            text-decoration: none;
+        }
+        .profile .info a:hover {
+            text-decoration: underline;
+        }
+        .info-container p, .image-container img {
+            color: #333;
+        }
+        .image-container img {
+            max-width: 100%;
+            height: auto;
+            margin: 10px 0;
+        }
+        @media (max-width: 768px) {
+            .profile {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .profile img {
+                margin-bottom: 20px;
+            }
+        }
+    </style>
+    <script>
+        function searchProfiles() {
+            const searchInput = document.getElementById('searchInput').value.toLowerCase();
+            const profiles = document.querySelectorAll('.search-results .profile');
+            
+            profiles.forEach(profile => {
+                const profileName = profile.getElementsByTagName('h2')[0].innerText.toLowerCase();
+                const profileDescription = profile.getElementsByTagName('p')[0].innerText.toLowerCase();
+
+                if (profileName.includes(searchInput) || profileDescription.includes(searchInput)) {
+                    profile.style.display = 'flex';
+                } else {
+                    profile.style.display = 'none';
+                }
+            });
+        }
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('searchInput').addEventListener('keypress', function(e) {
+                if (e.key === 'Enter') {
+                    searchProfiles();
+                }
+            });
+
+            const menuItems = document.querySelectorAll('.menu a');
+            menuItems.forEach(item => {
+                item.addEventListener('click', function() {
+                    menuItems.forEach(i => i.classList.remove('active'));
+                    this.classList.add('active');
+                    
+                    const targetId = this.getAttribute('data-target');
+                    
+                    document.querySelectorAll('.container, .search-container, .search-results, .info-container, .image-container').forEach(section => {
+                        section.style.display = 'none';
+                    });
+                    
+                    document.getElementById(targetId).style.display = 'block';
+                });
+            });
+
+            // Default menu item
+            document.querySelector('.menu a[data-target="pengurus-container"]').click();
+        });
+    </script>
+</head>
+<body>
+    <div class="header">
+        <img src="/Foto/wa/WhatsApp.jpg" alt="Logo">
+        <h1>X RPL 1</h1>
+    </div>
+    <div class="menu">
+        <a href="#" data-target="pengurus-container">Pengurus</a>
+        <a href="#" data-target="anggota-container">Anggota</a>
+        <a href="#" data-target="info-container">Info</a>
+        <a href="#" data-target="image-container">Image</a>
+    </div>
+    <div id="search-container" class="search-container">
+        <input type="text" id="searchInput" placeholder="Cari profil...">
+        <input type="button" value="Cari" onclick="searchProfiles()">
+    </div>
+    <div id="search-results" class="search-results"></div>
+    <div id="pengurus-container" class="container">
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" width="100" height="100">
+            <div class="info">
+                <h2>Pak Adibul Khair, S. KOM</h2>
+                <p>Wali Kelas X RPL 1.</p>
+                <a href="eror" target="_blank">Nothing</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="gallery/profile2.jpg" alt="Foto Profil 2" width="100" height="100">
+            <div class="info">
+                <h2>Nama</h2>
+                <p>Ketua Kelas X RPL 1.</p>
+                <a href="https://linkprofil2.com" target="_blank">Sosial media</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="gallery/profile3.jpg" alt="Foto Profil 3" width="100" height="100">
+            <div class="info">
+                <h2>Nama</h2>
+                <p>Wakil Ketua Kelas X RPL 1.</p>
+                <a href="https://linkprofil3.com" target="_blank">Sosial media</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" alt="Foto Profil 4" width="100" height="100">
+            <div class="info">
+                <h2>I Gusti Bagus Agung Alit Mahendra Datta</h2>
+                <p>Sekretaris X RPL 1.</p>
+                <a href="https://www.instagram.com/gykluks__?utm_source=qr&igsh=MTJqc2x0ZTF6Z3Noaw==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="gallery/profile5.jpg" alt="Foto Profil 5" width="100" height="100">
+            <div class="info">
+                <h2>Nama</h2>
+                <p>Bendahara kelas X RPL 1.</p>
+                <a href="https://linkprofil5.com" target="_blank">Sosial media</a>
+            </div>
+        </div>
+    </div>
+    <div id="anggota-container" class="container">
+        <div class="profile">
+            <img src="/Foto/wa/ekalaya.jpg" width="100" height="100">
+            <div class="info">
+                <h2>I Wayan Ekalaya</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/vuydsky?igsh=MTd3OTN6dHhjbjM0NQ==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" alt="Foto Profil 7" width="100" height="100">
+            <div class="info">
+                <h2>I Komang Angga Adiarta</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="eror" target="_blank">Coming soon</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Muhammad Radjadin.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Muhammad Radjadin</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/_rajdn?igsh=ajVlenM1bmc0cmVi" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Dymas alip projo.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Dymas alip projo</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/_this_is_not_true_?igsh=MWVjNmFlMHZqenhxNg==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" height="100">
+            <div class="info">
+                <h2>Putri ayudia chairunnisa</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="http://www.instagram.com/putput50860" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Baiq iza nurul azkiya.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Baiq iza nurul azkiya6</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/invites/contact/?igsh=7fzhf2mw4u2r&utm_content=v7vgkua" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/diana susianto.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Diana susianto</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/susiantodiana?igsh=MWJ2cGdrMmJjdzBpaw==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/nadia.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Nadia</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/akdea._?igsh=dXpuem1kajhpcGR0" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Nurisya putri.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Nurisya putri</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/nrslayting?igsh=bzcydTY1ZjI5cGcy" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Ida Ayu Nyoman Dwipa Yanti.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Ida Ayu Nyoman Dwipa Yanti</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/iandiiy?igsh=MTNjb3hpYnRncDV2Yg==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" width="100" height="100">
+            <div class="info">
+                <h2>Zainab Manshur</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://wa.me/qr/75VRUYART2J7K1" target="_blank">WhatsApp</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Muhammad Anova Ma'ruf.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Muhammad Anova Ma'ruf</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/vaamkrff?igsh=MWJtcm1rdXNwbmRkeA==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/M. Wazir Islami.jpg" width="100" height="100">
+            <div class="info">
+                <h2>M. Wazir Islami</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/zir_jb_12?igsh=ZWxzOWY5d2I2d3M1" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Bintang Arasti .jpg" width="100" height="100">
+            <div class="info">
+                <h2>Bintang Arasti</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/bbtg_arst1?igsh=czhybjNiZTh5Zjdv" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/nur.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Nurhayani</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/ayaaqqq_" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Lalu Fahriza Alfarizky.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Lalu Fahriza Alfarizky</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/rizzzxy_?utm_source=qr&igsh=NHYyMTNycDhzdzRw" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/jumawarni naskia.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Jumawarni naskia</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/_nskiaa?igsh=Mmh6MHpiMzd3dmk1" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" width="100" height="100">
+            <div class="info">
+                <h2>Ahmad Rizki Febrian</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="eror" target="_blank">Coming soon</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Ahmad Rizki Febrian.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Ahmad Rizki Febrian</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/rzkyfbran666?igsh=MWh0Ymx2NWxyN2Rodw==" target="_blank">instagram</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" width="100" height="100">
+            <div class="info">
+                <h2>Asmira salvia</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="eror" target="_blank">Coming soon</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Gufran napis.jpg" width="100" height="100">
+            <div class="info">
+                <h2>Gufran napis</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.tiktok.com/@fronzror?_t=8oLJYDeQSdU&_r=1" target="_blank">tiktok</a>
+            </div>
+        </div>
+        <div class="profile">
+            <img src="/Foto/wa/Make Your Day.jpeg" width="100" height="100">
+            <div class="info">
+                <h2>Selvan Julian Pratama</h2>
+                <p>Anggota Kelas X RPL 1.</p>
+                <a href="https://www.instagram.com/_tedyy24_/?igsh=cDJid2dkeWhvdGpv" target="_blank">instagram</a>
+            </div>
+        </div>
+    </div>
+    <div id="info-container" class="info-container">
+        <h1>COMING SOON</h1>
+        <p>Info tentang kelas X RPL 1. Informasi ini bisa mencakup jadwal pelajaran, tugas-tugas, acara kelas, dll.</p>
+    </div>
+    <div id="image-container" class="image-container">
+        <h1>COMING SOON</h1>
+        <img src="gallery/image1.jpg" alt="Gambar 1">
+        <img src="gallery/image2.jpg" alt="Gambar 2">
+        <!-- Tambahkan lebih banyak gambar sesuai kebutuhan -->
+    </div>
+</body>
